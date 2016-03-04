@@ -8,16 +8,17 @@ ENV MUMBLE_WELCOME_TEXT="<br />Welcome to this server running <b>Murmur</b>.<br 
   MUMBLE_BANDWIDTH=72000 \
   MUMBLE_USERS=100
 
-ADD mumble-server.ini /etc/mumble/mumble-server-template.ini
+ADD mumble-server.ini /app/config/mumble-server-template.ini
 ADD entrypoint.sh /app/entrypoint.sh
   
 RUN useradd mumble \
   && apt-get update \
   && apt-get install -y mumble-server \
-  && mkdir -p /opt/mumble/data \
+  && mkdir -p /app/data \
   && chown -R mumble /app \
-  && chown mumble /opt/mumble/data
+  && chmod -R 775 /app
 
+VOLUME ["/app/data"]
 EXPOSE 64738
 USER mumble
 
