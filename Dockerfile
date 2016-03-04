@@ -8,22 +8,16 @@ ENV MUMBLE_WELCOME_TEXT="<br />Welcome to this server running <b>Murmur</b>.<br 
   MUMBLE_BANDWIDTH=72000 \
   MUMBLE_USERS=100
 
-ADD mumble-server.ini /etc/mumble/mumble-server.ini
-
 RUN useradd mumble \
   && apt-get update \
   && apt-get install -y mumble-server \
-  && mkdir /opt/mumble/data \
+  && mkdir -p /opt/mumble/data \
   && chown mumble /opt/mumble/data
 
-RUN sed -i -e 's/{{MUMBLE_WELCOME_TEXT}}/${MUMBLE_WELCOME_TEXT}/g' /etc/mumble/mumble-server.ini \
-  && sed -i -e 's/{{MUMBLE_PORT}}/${MUMBLE_PORT}/g' /etc/mumble/mumble-server.ini \
-  && sed -i -e 's/{{MUMBLE_HOST}}/${MUMBLE_HOST}/g' /etc/mumble/mumble-server.ini \
-  && sed -i -e 's/{{MUMBLE_PASSWORD}}/${MUMBLE_PASSWORD}/g' /etc/mumble/mumble-server.ini \
-  && sed -i -e 's/{{MUMBLE_BANDWIDTH}}/${MUMBLE_BANDWIDTH}/g' /etc/mumble/mumble-server.ini \
-  && sed -i -e 's/{{MUMBLE_USERS}}/${MUMBLE_USERS}/g' /etc/mumble/mumble-server.ini \
+ADD mumble-server.ini /etc/mumble/mumble-server-template.ini
+ADD entrypoint.sh /app/entrypoint.sh
 
 EXPOSE 64738
 USER mumble
 
-ENTRYPOINT ["/usr/sbin/murmurd", "-fg", "-ini", "/etc/mumble/mumble-server.ini"]
+ENTRYPOINT ["/app/entrypoint.sh"]
