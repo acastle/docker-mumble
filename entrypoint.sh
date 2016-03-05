@@ -11,6 +11,7 @@ if [ ! -f $CONFIG ]; then
   sed -i -e "s|{{MUMBLE_PASSWORD}}|${MUMBLE_PASSWORD}|g" $CONFIG
   sed -i -e "s|{{MUMBLE_BANDWIDTH}}|${MUMBLE_BANDWIDTH}|g" $CONFIG
   sed -i -e "s|{{MUMBLE_USERS}}|${MUMBLE_USERS}|g" $CONFIG
+  sed -i -e "s|{{MUMBLE_REGISTER_NAME}}|${MUMBLE_REGISTER_NAME}|g" $CONFIG
 fi
 
 if [[ ! (-f "$CERT" && -f "$CERT_KEY" ) ]]; then
