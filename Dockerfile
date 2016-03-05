@@ -1,7 +1,8 @@
 FROM ubuntu:14.04
 MAINTAINER Alex Castle <agcastle64@gmail.com>
 
-ENV MUMBLE_WELCOME_TEXT="<br />Welcome to this server running <b>Murmur</b>.<br />Enjoy your stay!<br />" \
+ENV MUMBLE_REGISTER_NAME="Root" \ 
+  MUMBLE_WELCOME_TEXT="<br />Welcome to this server running <b>Murmur</b>.<br />Enjoy your stay!<br />" \
   MUMBLE_PASSWORD="" \
   MUMBLE_BANDWIDTH=72000 \
   MUMBLE_USERS=100 \
