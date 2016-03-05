@@ -5,7 +5,7 @@ ENV MUMBLE_WELCOME_TEXT="<br />Welcome to this server running <b>Murmur</b>.<br 
   MUMBLE_PASSWORD="" \
   MUMBLE_BANDWIDTH=72000 \
   MUMBLE_USERS=100 \
-  HOME = /app
+  HOME=/app
 
 ADD mumble-server.ini /app/config/mumble-server-template.ini
 ADD entrypoint.sh /app/entrypoint.sh
