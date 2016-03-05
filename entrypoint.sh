@@ -1,8 +1,8 @@
 #!/bin/bash
 
 CONFIG="/app/config/mumble-server.ini"
-CERT="/app/certs/mumble_concat.csr"
-CERT_KEY="/app/certs/mumble.key"
+CERT="/app/certs/mumble.pem"
+CERT_KEY="/app/certs/mumble.pem"
 
 if [ ! -f $CONFIG ]; then
   echo "Making mumble-server.ini"
@@ -15,10 +15,7 @@ fi
 
 if [[ ! (-f "$CERT" && -f "$CERT_KEY" ) ]]; then
   echo "Creating mumble.key and mumble_concat.csr"
-  openssl req -nodes -newkey rsa:4096 -keyout /app/certs/mumble.key -out /app/certs/mumble.csr -subj "/CN=${MUMBLE_HOST}"
-  wget -P /app/certs --no-check-certificate https://www.startssl.com/certs/sub.class1.server.ca.pem
-  cat /app/certs/sub.class1.server.ca.pem > /app/certs/mumble_concat.crt
-  cat /app/certs/mumble.crt >> mumble_concat.crt
+  openssl req -x509 -nodes -newkey rsa:4096 -keyout /app/certs/mumble.key -out /app/certs/mumble.pem -subj "/CN=${MUMBLE_HOST}" -days 3650
 fi
 
 /usr/sbin/murmurd -fg -ini "/app/config/mumble-server.ini"
